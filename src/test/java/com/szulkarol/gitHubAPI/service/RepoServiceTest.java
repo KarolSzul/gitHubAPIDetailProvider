@@ -33,7 +33,7 @@ public class RepoServiceTest {
     @Test
     public void CheckResponseFromFirstRepository() throws IOException {
 
-        // Mocking the RepoDTO array from a
+        // Mocking the RepoDTO array
 
         final String userName = "KarolSzul";
         Mockito.when(restTemplate.getForObject(getRepoUrl(userName), RepoDTO[].class))
