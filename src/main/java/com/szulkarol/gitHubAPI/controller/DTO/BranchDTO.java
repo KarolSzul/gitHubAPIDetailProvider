@@ -1,10 +1,15 @@
-package com.atipera.gitHubAPI.controller.DTO;
+package com.szulkarol.gitHubAPI.controller.DTO;
 
 
 public class BranchDTO {
 
     private String name;
     private Commit commit;
+
+    public BranchDTO(String name, Commit commit) {
+        this.name = name;
+        this.commit = commit;
+    }
 
     public BranchDTO() {
     }
@@ -13,20 +18,16 @@ public class BranchDTO {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Commit getCommit() {
         return commit;
     }
 
-    public void setCommit(Commit commit) {
-        this.commit = commit;
-    }
-
     public static class Commit {
         private String sha;
+
+        public Commit(String sha) {
+            this.sha = sha;
+        }
 
         public Commit() {
         }
@@ -35,8 +36,11 @@ public class BranchDTO {
             return sha;
         }
 
-        public void setSha(String sha) {
-            this.sha = sha;
+        @Override
+        public String toString() {
+            return "Commit{" +
+                    "sha='" + sha + '\'' +
+                    '}';
         }
     }
 

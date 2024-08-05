@@ -1,0 +1,110 @@
+[
+  {
+    "repositoryName": "car-rental-repository",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "0bb732e187e4ab7536fb8d45aee977dafc7fb1b5"
+      }
+    ]
+  },
+  {
+    "repositoryName": "CodeWars",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "5048f37301a6cbd2e0202c2dc317c515af947328"
+      }
+    ]
+  },
+  {
+    "repositoryName": "Corporation",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "b993338f923100713cd9cf557a0c44373b5ee1ee"
+      }
+    ]
+  },
+  {
+    "repositoryName": "CV",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "5f742657d8c7e14774786afbb538e98e8398e3ef"
+      }
+    ]
+  },
+  {
+    "repositoryName": "gitHubAPI",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "89f1969f9e4925a6e9c3592b8d9d995cdf9c7e5e"
+      }
+    ]
+  },
+  {
+    "repositoryName": "JavaAdvancedProgrammingIndividualExercises",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "e4b320b75af434ecd511142fc1aa56990b19e587"
+      }
+    ]
+  },
+  {
+    "repositoryName": "library",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "master",
+        "sha": "8aa7630b79e2b8db2d6f77f6f52b7a18151dcf0b"
+      }
+    ]
+  },
+  {
+    "repositoryName": "pol134_library",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "login",
+        "sha": "225a2fdf879a24ce633c00778896d4974816b44a"
+      }
+    ]
+  },
+  {
+    "repositoryName": "project-1",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "Karol-temp",
+        "sha": "7a411f8feca510b3a9e7dbe1df238847984bca97"
+      },
+      {
+        "branchName": "QuestionsFromCSV",
+        "sha": "ff317b10be4eb303966e7af71892d6d1ecb19b05"
+      },
+      {
+        "branchName": "main",
+        "sha": "c323c69d4bc0ca32f706f2b8f08033389c17c3ac"
+      }
+    ]
+  },
+  {
+    "repositoryName": "Spting-Boot-My-App",
+    "login": "KarolSzul",
+    "branches": [
+      {
+        "branchName": "main",
+        "sha": "1964d42f231cd4fc7b5c32064e5374ef1ad21c85"
+      }
+    ]
+  }
+]

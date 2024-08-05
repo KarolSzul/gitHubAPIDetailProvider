@@ -1,13 +1,13 @@
-package com.atipera.gitHubAPI.controller.DTO;
+package com.szulkarol.gitHubAPI.controller.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties
 public class RepoDTO {
 
-    private String name;
-    private Owner owner;
-    private boolean fork;
+    private  String name;
+    private  Owner owner;
+    private  boolean fork;
 
     private String branches_url;
 
@@ -15,37 +15,25 @@ public class RepoDTO {
         return branches_url;
     }
 
-    public void setBranches_url(String branches_url) {
-        this.branches_url = branches_url;
-    }
-
-    public RepoDTO(String name, Owner owner) {
+    public RepoDTO(String name, Owner owner, boolean fork) {
         this.name = name;
         this.owner = owner;
+        this.fork = fork;
+    }
+
+    public RepoDTO() {
     }
 
     public boolean isFork() {
         return fork;
     }
 
-    public void setFork(boolean fork) {
-        this.fork = fork;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Owner getOwner() {
         return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
     }
 
     public static class Owner {
@@ -62,9 +50,6 @@ public class RepoDTO {
             return login;
         }
 
-        public void setLogin(String login) {
-            this.login = login;
-        }
     }
 
 }
