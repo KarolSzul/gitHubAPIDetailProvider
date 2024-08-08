@@ -81,22 +81,4 @@ public class RepoService {
     }
 
 
-//    private List<RepoOutputDTO.Branch> mapBranchesDetails(String url) {
-//        String newUrl = url.replace("{/branch}", "");
-//        BranchDTO[] branchDTO = null;
-//        try {
-//            branchDTO = restTemplate.getForObject(newUrl, BranchDTO[].class);
-//            if (branchDTO != null) {
-//                return Arrays.asList(branchDTO)
-//                        .stream()
-//                        .map(branch -> new RepoOutputDTO.Branch(branch.getName(), branch.getCommit().getSha()))
-//                        .collect(Collectors.toList());
-//            } else {
-//                return new ArrayList<>();
-//            }
-//        } catch (RestClientException restClientException) {
-//            return null;
-//        }
-//    }
-
 }
