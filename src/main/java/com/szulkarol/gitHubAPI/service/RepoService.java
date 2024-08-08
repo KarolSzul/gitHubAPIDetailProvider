@@ -16,16 +16,12 @@ import java.util.stream.Collectors;
 
 public class RepoService {
 
-    private String url;
-    private RestTemplate restTemplate;
+    private final String url;
+    private final RestTemplate restTemplate;
 
     public RepoService(String url, RestTemplate restTemplate) {
         this.url = url;
         this.restTemplate = restTemplate;
-    }
-
-    private String getUrl(String username) {
-        return String.format(url, username);
     }
 
     public List<RepoOutputDTO> getRepositoryDetails(String username) {
@@ -40,35 +36,67 @@ public class RepoService {
                     .collect(Collectors.toList());
     }
 
-    private List<RepoDTO> getRawRepositoriesDetails(String username) throws RestClientException {
+    private List<RepoDTO> getRawRepositoriesDetails(String username) {
         try {
-            return Arrays.stream(restTemplate.getForObject(getUrl(username), RepoDTO[].class)).toList();
+            RepoDTO[] repoDTOS = restTemplate.getForObject(getUrl(username), RepoDTO[].class);
+            return Arrays.asList(repoDTOS);
         } catch (HttpClientErrorException httpClientErrorException) {
-        throw new HttpClientErrorException(HttpStatus.NOT_FOUND,
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND,
                 "GitHub repository error: " + httpClientErrorException.getMessage());
         }
         catch (HttpServerErrorException httpServerErrorException) {
-        throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
                 "GitHub repository error: " + httpServerErrorException.getMessage());
         }
+        catch (RuntimeException exception) {
+            throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "An unexpected error occurred: " + exception.getMessage());
+        }
+    }
+
+    private String getUrl(String username) {
+        return String.format(url, username);
     }
 
     private List<RepoOutputDTO.Branch> mapBranchesDetails(String url) {
         String newUrl = url.replace("{/branch}", "");
-        BranchDTO[] branchDTO = null;
+
+        BranchDTO[] branchDTO = checkMapBranchesDetailsExceptions(newUrl);
+
+        if (branchDTO != null) {
+            return Arrays.stream(branchDTO)
+                    .map(branch -> new RepoOutputDTO.Branch(branch.getName(), branch.getCommit().getSha()))
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    private BranchDTO[] checkMapBranchesDetailsExceptions(String url) {
         try {
-            branchDTO = restTemplate.getForObject(newUrl, BranchDTO[].class);
-            if (branchDTO != null) {
-                return Arrays.asList(branchDTO)
-                        .stream()
-                        .map(branch -> new RepoOutputDTO.Branch(branch.getName(), branch.getCommit().getSha()))
-                        .collect(Collectors.toList());
-            } else {
-                return new ArrayList<>();
-            }
+           return restTemplate.getForObject(url, BranchDTO[].class);
         } catch (RestClientException restClientException) {
             return null;
         }
     }
+
+
+//    private List<RepoOutputDTO.Branch> mapBranchesDetails(String url) {
+//        String newUrl = url.replace("{/branch}", "");
+//        BranchDTO[] branchDTO = null;
+//        try {
+//            branchDTO = restTemplate.getForObject(newUrl, BranchDTO[].class);
+//            if (branchDTO != null) {
+//                return Arrays.asList(branchDTO)
+//                        .stream()
+//                        .map(branch -> new RepoOutputDTO.Branch(branch.getName(), branch.getCommit().getSha()))
+//                        .collect(Collectors.toList());
+//            } else {
+//                return new ArrayList<>();
+//            }
+//        } catch (RestClientException restClientException) {
+//            return null;
+//        }
+//    }
 
 }

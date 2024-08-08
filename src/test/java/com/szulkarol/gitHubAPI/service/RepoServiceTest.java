@@ -24,35 +24,42 @@ import java.util.List;
 public class RepoServiceTest {
 
     @Autowired
-    RepoService repoService;
+    private RepoService repoService;
 
     @MockBean
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
 
     @Test
-    public void CheckResponseFromFirstRepository() throws IOException {
+    public void checkResponseFromFirstRepository() throws IOException {
 
+<<<<<<< HEAD
         // Mocking the RepoDTO array
+=======
+        // Given
 
-        final String userName = "KarolSzul";
+        String userName = "KarolSzul";
+        String repoName= "car-rental-repository";
+
+        // When
+>>>>>>> 130d7ee (Refactored testing and some methods)
+
         Mockito.when(restTemplate.getForObject(getRepoUrl(userName), RepoDTO[].class))
                 .thenReturn(getRepoDTOArrayFromJSON("src/test/resources/RawRepositoryDetails.json"));
-
-        //Mocking the BranchDTO array
-
-        String repoName= "car-rental-repository";
 
         Mockito.when(restTemplate.getForObject(getBranchUrl(userName, repoName), BranchDTO[].class))
                 .thenReturn(getBranchDTOArrayFromJSON("src/test/resources/CarRentalRepositoryBranches.json"));
 
         List<RepoOutputDTO> resultList = repoService.getRepositoryDetails(userName);
+
         RepoOutputDTO repoOutputDTO1 = resultList.get(0);
+
+        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
+
+        // Then
 
         Assertions.assertEquals(repoOutputDTO1.getRepositoryName(), "car-rental-repository");
         Assertions.assertEquals(repoOutputDTO1.getLogin(), "KarolSzul");
-
-        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
 
         Assertions.assertEquals(branchDTOList1.get(0).getBranchName(), "main");
         Assertions.assertEquals(branchDTOList1.get(0).getSha(), "0bb732e187e4ab7536fb8d45aee977dafc7fb1b5");
@@ -60,28 +67,29 @@ public class RepoServiceTest {
     }
 
     @Test
-    public void CheckResponseFromSecondRepository() throws IOException {
+    public void checkResponseFromSecondRepository() throws IOException {
 
-        // Mocking the RepoDTO array
+        // Given
 
-        final String userName = "KarolSzul";
+        String userName = "KarolSzul";
+        String repoName= "CodeWars";
+
         Mockito.when(restTemplate.getForObject(getRepoUrl(userName), RepoDTO[].class))
                 .thenReturn(getRepoDTOArrayFromJSON("src/test/resources/RawRepositoryDetails.json"));
 
-        //Mocking the BranchDTO array
-
-        String repoName= "CodeWars";
+        // When
 
         Mockito.when(restTemplate.getForObject(getBranchUrl(userName, repoName), BranchDTO[].class))
                 .thenReturn(getBranchDTOArrayFromJSON("src/test/resources/CodeWarsBranches.json"));
 
         List<RepoOutputDTO> resultList = repoService.getRepositoryDetails(userName);
         RepoOutputDTO repoOutputDTO1 = resultList.get(1);
+        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
+
+        // Then
 
         Assertions.assertEquals(repoOutputDTO1.getRepositoryName(), "CodeWars");
         Assertions.assertEquals(repoOutputDTO1.getLogin(), "KarolSzul");
-
-        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
 
         Assertions.assertEquals(branchDTOList1.get(0).getBranchName(), "main");
         Assertions.assertEquals(branchDTOList1.get(0).getSha(), "5048f37301a6cbd2e0202c2dc317c515af947328");

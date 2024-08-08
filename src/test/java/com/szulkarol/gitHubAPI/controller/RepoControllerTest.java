@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,10 +23,8 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-
 @WebMvcTest(RepoController.class)
 class RepoControllerTest {
-
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -38,26 +35,18 @@ class RepoControllerTest {
 	@Test
 	public void testGetRepositoryDetails() throws Exception {
 
-		List<RepoOutputDTO> mockRepoOutputDTO = new ArrayList<>();
-		List<RepoOutputDTO.Branch> branches1 = new ArrayList<>();
-		List<RepoOutputDTO.Branch> branches2 = new ArrayList<>();
+		// Given
 
-		RepoOutputDTO.Branch branch1 = new RepoOutputDTO.Branch("BranchName1", "ExampleSha1");
-		RepoOutputDTO.Branch branch2 = new RepoOutputDTO.Branch("BranchName2", "ExampleSha2");
-		RepoOutputDTO.Branch branch3 = new RepoOutputDTO.Branch("BranchName3", "ExampleSha3");
-		RepoOutputDTO.Branch branch4 = new RepoOutputDTO.Branch("BranchName4", "ExampleSha4");
+		List<RepoOutputDTO> mockRepoOutputDTO = mockListRepoOutputDTO();
+		String username = "KarolSzul";
 
-		branches1.add(branch1);
-		branches1.add(branch2);
-		branches2.add(branch3);
-		branches2.add(branch4);
+		// When
 
-		mockRepoOutputDTO.add(new RepoOutputDTO("ExampleName1", "ExampleLogin1", branches1));
-		mockRepoOutputDTO.add(new RepoOutputDTO("ExampleName2", "ExampleLogin2", branches2));
+		Mockito.when(repoService.getRepositoryDetails(username)).thenReturn(mockRepoOutputDTO);
 
-		Mockito.when(repoService.getRepositoryDetails("KarolSzul")).thenReturn(mockRepoOutputDTO);
+		// Then
 
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/repositoriesInfo/user/KarolSzul")
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/repositoriesInfo/user/" + username)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andDo(print())
 				.andExpect(status().isOk())
@@ -76,11 +65,17 @@ class RepoControllerTest {
 	@Test
 	public void checkClientErrorExceptionTest() throws Exception {
 
+		// Given
+
 		String userName = "KarolSzghfgdhgfhul123456789";
+
+		// When
 
 		Mockito.when(repoService.getRepositoryDetails(userName))
 				.thenThrow(new HttpClientErrorException(HttpStatus.NOT_FOUND,
 						"Something went wrong."));
+
+		// Then
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/repositoriesInfo/user/" + userName)
 				.contentType(MediaType.APPLICATION_JSON))
@@ -94,11 +89,17 @@ class RepoControllerTest {
 	@Test
 	public void checkHttpServerErrorExceptionTest() throws Exception {
 
+		// Given
+
 		String userName = "KarolSzul";
+
+		// When
 
 		Mockito.when(repoService.getRepositoryDetails(userName))
 				.thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR,
 						"Something went wrong."));
+
+		// Then
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/repositoriesInfo/user/" + userName)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -113,10 +114,16 @@ class RepoControllerTest {
 	@Test
 	public void checkUndefinedExceptionTest() throws Exception{
 
+		// Given
+
 		String userName = "KarolSzul";
+
+		// When
 
 		Mockito.when(repoService.getRepositoryDetails(userName))
 				.thenThrow(new RuntimeException("Something went wrong."));
+
+		// Then
 
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/repositoriesInfo/user/" + userName)
 						.contentType(MediaType.APPLICATION_JSON))
@@ -126,6 +133,27 @@ class RepoControllerTest {
 				.andExpect(jsonPath("$.message")
 						.value("An unexpected error occurred. Please try again later"));
 
+	}
+
+	private List<RepoOutputDTO> mockListRepoOutputDTO() {
+		List<RepoOutputDTO> mockRepoOutputDTO = new ArrayList<>();
+		List<RepoOutputDTO.Branch> branches1 = new ArrayList<>();
+		List<RepoOutputDTO.Branch> branches2 = new ArrayList<>();
+
+		RepoOutputDTO.Branch branch1 = new RepoOutputDTO.Branch("BranchName1", "ExampleSha1");
+		RepoOutputDTO.Branch branch2 = new RepoOutputDTO.Branch("BranchName2", "ExampleSha2");
+		RepoOutputDTO.Branch branch3 = new RepoOutputDTO.Branch("BranchName3", "ExampleSha3");
+		RepoOutputDTO.Branch branch4 = new RepoOutputDTO.Branch("BranchName4", "ExampleSha4");
+
+		branches1.add(branch1);
+		branches1.add(branch2);
+		branches2.add(branch3);
+		branches2.add(branch4);
+
+		mockRepoOutputDTO.add(new RepoOutputDTO("ExampleName1", "ExampleLogin1", branches1));
+		mockRepoOutputDTO.add(new RepoOutputDTO("ExampleName2", "ExampleLogin2", branches2));
+
+		return mockRepoOutputDTO;
 	}
 
 }

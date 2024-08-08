@@ -1,4 +1,4 @@
-package com.szulkarol.gitHubAPI.service;
+package com.szulkarol.gitHubAPI;
 
 public class ApiErrorResponse {
 

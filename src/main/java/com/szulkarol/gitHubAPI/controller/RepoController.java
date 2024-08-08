@@ -1,6 +1,6 @@
 package com.szulkarol.gitHubAPI.controller;
 
-import com.szulkarol.gitHubAPI.service.ApiErrorResponse;
+import com.szulkarol.gitHubAPI.ApiErrorResponse;
 import com.szulkarol.gitHubAPI.service.RepoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

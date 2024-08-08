@@ -6,7 +6,6 @@ public class RepoOutputDTO {
 
     private String repositoryName;
     private String login;
-
     private List<Branch> branches;
 
     public RepoOutputDTO(String name, String login, List<Branch> branches) {
