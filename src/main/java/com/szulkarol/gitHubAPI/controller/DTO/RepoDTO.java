@@ -1,57 +1,10 @@
 package com.szulkarol.gitHubAPI.controller.DTO;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
-@JsonIgnoreProperties
-public class RepoDTO {
+public record RepoDTO(String name, Owner owner, boolean fork,
+                      @JsonProperty("branches_url") @SerializedName("branches_url") String branchesUrl) {
 
-    private  String name;
-    private  Owner owner;
-    private  boolean fork;
-
-    private String branches_url;
-
-    public String getBranches_url() {
-        return branches_url;
-    }
-
-    public RepoDTO(String name, Owner owner, boolean fork) {
-        this.name = name;
-        this.owner = owner;
-        this.fork = fork;
-    }
-
-    public RepoDTO() {
-    }
-
-    public boolean isFork() {
-        return fork;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public static class Owner {
-        private String login;
-
-        public Owner(String login) {
-            this.login = login;
-        }
-
-        public Owner() {
-        }
-
-        public String getLogin() {
-            return login;
-        }
-
-    }
-
+    public record Owner(String login) {}
 }
-
-

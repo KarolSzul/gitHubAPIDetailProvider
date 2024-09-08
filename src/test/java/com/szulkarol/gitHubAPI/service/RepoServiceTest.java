@@ -1,10 +1,11 @@
 package com.szulkarol.gitHubAPI.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.szulkarol.gitHubAPI.controller.DTO.BranchDTO;
 import com.szulkarol.gitHubAPI.controller.DTO.RepoDTO;
 import com.szulkarol.gitHubAPI.controller.DTO.RepoOutputDTO;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -33,16 +34,15 @@ public class RepoServiceTest {
     @Test
     public void checkResponseFromFirstRepository() throws IOException {
 
-<<<<<<< HEAD
+
         // Mocking the RepoDTO array
-=======
+
         // Given
 
         String userName = "KarolSzul";
         String repoName= "car-rental-repository";
 
         // When
->>>>>>> 130d7ee (Refactored testing and some methods)
 
         Mockito.when(restTemplate.getForObject(getRepoUrl(userName), RepoDTO[].class))
                 .thenReturn(getRepoDTOArrayFromJSON("src/test/resources/RawRepositoryDetails.json"));
@@ -54,15 +54,15 @@ public class RepoServiceTest {
 
         RepoOutputDTO repoOutputDTO1 = resultList.get(0);
 
-        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
+        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.branches();
 
         // Then
 
-        Assertions.assertEquals(repoOutputDTO1.getRepositoryName(), "car-rental-repository");
-        Assertions.assertEquals(repoOutputDTO1.getLogin(), "KarolSzul");
+        Assertions.assertEquals(repoOutputDTO1.repositoryName(), "car-rental-repository");
+        Assertions.assertEquals(repoOutputDTO1.login(), "KarolSzul");
 
-        Assertions.assertEquals(branchDTOList1.get(0).getBranchName(), "main");
-        Assertions.assertEquals(branchDTOList1.get(0).getSha(), "0bb732e187e4ab7536fb8d45aee977dafc7fb1b5");
+        Assertions.assertEquals(branchDTOList1.get(0).branchName(), "main");
+        Assertions.assertEquals(branchDTOList1.get(0).sha(), "0bb732e187e4ab7536fb8d45aee977dafc7fb1b5");
 
     }
 
@@ -82,17 +82,22 @@ public class RepoServiceTest {
         Mockito.when(restTemplate.getForObject(getBranchUrl(userName, repoName), BranchDTO[].class))
                 .thenReturn(getBranchDTOArrayFromJSON("src/test/resources/CodeWarsBranches.json"));
 
+        Mockito.when(restTemplate.getForObject(getBranchUrl(userName, repoName), BranchDTO[].class))
+                .thenReturn(getBranchDTOArrayFromJSON("src/test/resources/CodeWarsBranches.json"));
+
+
+
         List<RepoOutputDTO> resultList = repoService.getRepositoryDetails(userName);
         RepoOutputDTO repoOutputDTO1 = resultList.get(1);
-        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.getBranches();
+        List<RepoOutputDTO.Branch> branchDTOList1 = repoOutputDTO1.branches();
 
         // Then
 
-        Assertions.assertEquals(repoOutputDTO1.getRepositoryName(), "CodeWars");
-        Assertions.assertEquals(repoOutputDTO1.getLogin(), "KarolSzul");
+        Assertions.assertEquals(repoOutputDTO1.repositoryName(), "CodeWars");
+        Assertions.assertEquals(repoOutputDTO1.login(), "KarolSzul");
 
-        Assertions.assertEquals(branchDTOList1.get(0).getBranchName(), "main");
-        Assertions.assertEquals(branchDTOList1.get(0).getSha(), "5048f37301a6cbd2e0202c2dc317c515af947328");
+        Assertions.assertEquals(branchDTOList1.get(0).branchName(), "main");
+        Assertions.assertEquals(branchDTOList1.get(0).sha(), "5048f37301a6cbd2e0202c2dc317c515af947328");
     }
 
     private String getRepoUrl(String userName) {
@@ -115,6 +120,7 @@ public class RepoServiceTest {
         Gson gson = new Gson();
         Type branchArrayType = new TypeToken<BranchDTO[]>() {}.getType();
         return gson.fromJson(branchJson, branchArrayType);
+
     }
 
 }

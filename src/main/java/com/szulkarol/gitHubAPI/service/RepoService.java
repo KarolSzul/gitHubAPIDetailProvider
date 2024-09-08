@@ -27,10 +27,10 @@ public class RepoService {
     public List<RepoOutputDTO> getRepositoryDetails(String username) {
             return getRawRepositoriesDetails(username)
                     .stream()
-                    .filter(repo -> !repo.isFork())
+                    .filter(repo -> !repo.fork())
                     .map(repo -> {
-                        List<RepoOutputDTO.Branch> branches = mapBranchesDetails(repo.getBranches_url());
-                        RepoOutputDTO repoOutputDTO = new RepoOutputDTO(repo.getName(), repo.getOwner().getLogin(), branches);
+                        List<RepoOutputDTO.Branch> branches = mapBranchesDetails(repo.branchesUrl());
+                        RepoOutputDTO repoOutputDTO = new RepoOutputDTO(repo.name(), repo.owner().login(), branches);
                         return repoOutputDTO;
                     })
                     .collect(Collectors.toList());
@@ -65,7 +65,7 @@ public class RepoService {
 
         if (branchDTO != null) {
             return Arrays.stream(branchDTO)
-                    .map(branch -> new RepoOutputDTO.Branch(branch.getName(), branch.getCommit().getSha()))
+                    .map(branch -> new RepoOutputDTO.Branch(branch.name(), branch.commit().sha()))
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>();
